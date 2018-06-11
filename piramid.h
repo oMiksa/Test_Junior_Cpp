@@ -16,11 +16,13 @@ class Piramid : public QMainWindow
 public:
     explicit Piramid(QWidget *parent = 0);
 
-    void newLayer(QString path, int width, int height);
+    void newLayer(int width, int height, QString path);
+    void newLayer(int width, int height);
 
     ~Piramid();
 
     QImage *img;
+    QPixmap *pix;
 private:
     Ui::Piramid *ui;
 };

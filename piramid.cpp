@@ -7,16 +7,24 @@ Piramid::Piramid(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setFixedSize(550,600);
+    //ui->imageLabel->setFixedSize(500,500);
 
-    newLayer(".//ImageClear.png",500,500);
+    newLayer(250,250,".//ImageClear.png");
 }
 
-void Piramid::newLayer(QString path, int width, int height)
+void Piramid::newLayer(int width, int height)
 {
-    //ui->imageLabel->resize(width,height);
+    pix = new QPixmap(width,height);
+    pix->fill(Qt::white);
+    ui->imageLabel->setPixmap(*pix);
+    ui->sizeLayerLabel->setText(QString::number(width) + "x" + QString::number(height));
+}
+
+void Piramid::newLayer(int width, int height, QString path)
+{
     img = new QImage(path);
-    QImage qwe = img->scaled(width,height);
-    ui->imageLabel->setPixmap(QPixmap::fromImage(qwe));
+    ui->imageLabel->setPixmap(QPixmap::fromImage(img->scaled(width,height)));
+    ui->sizeLayerLabel->setText(QString::number(width) + "x" + QString::number(height));
 }
 
 Piramid::~Piramid()
