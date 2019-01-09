@@ -17,13 +17,18 @@ Piramid::Piramid(QWidget *parent) :
 
 void Piramid::newLayer(QString path)
 {
+    imgLbl = new QLabel(this);
     img = new QImage(path);
-    QLabel *imgLbl = new QLabel(this);
-    imgLbl->setPixmap(QPixmap::fromImage(*img));
-    ui->scrollArea->setWidget(imgLbl);
+    imgTemp = new QImage(path);
 
-    //show size Pixmap
-    ui->sizeLayerLabel->setText(QString::number(img->height()) + "x" + QString::number(img->width()));
+    nextLayer(ANOUNT);
+
+    creatPyramid(4);
+
+    nextLayer(3);
+
+
+
 }
 
 void Piramid::newLayer(int width, int height)
@@ -44,6 +49,33 @@ void Piramid::openImageLayer()
     QFileInfo fileName(paths);
     ui->fileNameComboBox->addItem(fileName.fileName());
     newLayer(paths);
+}
+
+void Piramid::nextLayer(int n)
+{
+    imgTemp->scaled(imgTemp->width() / qPow(2, n), imgTemp->height() / qPow(2, n), Qt::KeepAspectRatio)\
+            .scaled(img->width(), img->height(), Qt::KeepAspectRatio);
+    printLayer();
+}
+
+void Piramid::printLayer()
+{
+    imgLbl->setPixmap(QPixmap::fromImage(*imgTemp));
+    ui->scrollArea->setWidget(imgLbl);
+
+    //show size Pixmap
+    ui->sizeLayerLabel->setText(QString::number(imgTemp->width()) + "x" + QString::number(imgTemp->height()));
+}
+
+void Piramid::creatPyramid(int n)
+{
+    QPainter painter(imgTemp);
+    for(int i(1); i <= n; i++) {
+        painter.drawImage(img->width() / 2 - img->width() / (qPow(2, i) * 2), img->height() / 2 - img->height() / (qPow(2, i) * 2),\
+                          img->scaled(img->width() / qPow(2, i),img->height() / qPow(2, i),  Qt::KeepAspectRatio));
+        printLayer();
+    }
+    painter.end();
 }
 
 Piramid::~Piramid()
