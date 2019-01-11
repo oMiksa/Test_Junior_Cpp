@@ -1,9 +1,9 @@
-#include "piramid.h"
-#include "ui_piramid.h"
+#include "pyramid.h"
+#include "ui_pyramid.h"
 
-Piramid::Piramid(QWidget *parent) :
+Pyramid::Pyramid(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::Piramid)
+    ui(new Ui::Pyramid)
 {
     ui->setupUi(this);
 
@@ -15,7 +15,7 @@ Piramid::Piramid(QWidget *parent) :
     newLayer(500,500);
 }
 
-void Piramid::newLayer(QString path)
+void Pyramid::newLayer(QString path)
 {
     imgLbl = new QLabel(this);
     img = new QImage(path);
@@ -31,7 +31,7 @@ void Piramid::newLayer(QString path)
 
 }
 
-void Piramid::newLayer(int width, int height)
+void Pyramid::newLayer(int width, int height)
 {
     pix = new QPixmap(width, height);
     pix->fill(Qt::white);
@@ -43,7 +43,7 @@ void Piramid::newLayer(int width, int height)
     ui->sizeLayerLabel->setText(QString::number(width) + "x" + QString::number(height));
 }
 
-void Piramid::openImageLayer()
+void Pyramid::openImageLayer()
 {
     QString paths = QFileDialog::getOpenFileName(this,tr("Open Image"),"",tr("Image Files(*.png *.jpg)"));
     QFileInfo fileName(paths);
@@ -51,14 +51,14 @@ void Piramid::openImageLayer()
     newLayer(paths);
 }
 
-void Piramid::nextLayer(int n)
+void Pyramid::nextLayer(int n)
 {
     imgTemp->scaled(imgTemp->width() / qPow(2, n), imgTemp->height() / qPow(2, n), Qt::KeepAspectRatio)\
             .scaled(img->width(), img->height(), Qt::KeepAspectRatio);
     printLayer();
 }
 
-void Piramid::printLayer()
+void Pyramid::printLayer()
 {
     imgLbl->setPixmap(QPixmap::fromImage(*imgTemp));
     ui->scrollArea->setWidget(imgLbl);
@@ -67,7 +67,7 @@ void Piramid::printLayer()
     ui->sizeLayerLabel->setText(QString::number(imgTemp->width()) + "x" + QString::number(imgTemp->height()));
 }
 
-void Piramid::creatPyramid(int n)
+void Pyramid::creatPyramid(int n)
 {
     QPainter painter(imgTemp);
     for(int i(1); i <= n; i++) {
@@ -78,12 +78,12 @@ void Piramid::creatPyramid(int n)
     painter.end();
 }
 
-Piramid::~Piramid()
+Pyramid::~Pyramid()
 {
     delete ui;
 }
 
-void Piramid::on_actionOpen_triggered()
+void Pyramid::on_actionOpen_triggered()
 {
     openImageLayer();
 }

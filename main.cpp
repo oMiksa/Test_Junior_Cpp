@@ -1,10 +1,10 @@
-#include "piramid.h"
+#include "pyramid.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    Piramid w;
+    Pyramid w;
     w.show();
 
     return a.exec();

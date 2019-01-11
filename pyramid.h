@@ -1,5 +1,5 @@
-#ifndef PIRAMID_H
-#define PIRAMID_H
+#ifndef PYRAMID_H
+#define PYRAMID_H
 
 #define ANOUNT 7
 
@@ -16,15 +16,15 @@
 #include <QTimer>
 
 namespace Ui {
-class Piramid;
+class Pyramid;
 }
 
-class Piramid : public QMainWindow
+class Pyramid : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit Piramid(QWidget *parent = 0);
+    explicit Pyramid(QWidget *parent = 0);
 
     void newLayer(QString path);
     void newLayer(int width, int height);
@@ -33,7 +33,7 @@ public:
     void printLayer();
     void creatPyramid(int n);
 
-    ~Piramid();
+    ~Pyramid();
 
     QImage *img;
     QImage *imgTemp;
@@ -44,7 +44,7 @@ private slots:
     void on_actionOpen_triggered();
 
 private:
-    Ui::Piramid *ui;
+    Ui::Pyramid *ui;
 };
 
-#endif // PIRAMID_H
+#endif // PYRAMID_H

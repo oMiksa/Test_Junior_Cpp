@@ -25,10 +25,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        piramid.cpp
+        pyramid.cpp
 
 HEADERS += \
-        piramid.h
+        pyramid.h
 
 FORMS += \
-        piramid.ui
+        pyramid.ui

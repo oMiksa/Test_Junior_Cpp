@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Piramid</class>
- <widget class="QMainWindow" name="Piramid">
+ <class>Pyramid</class>
+ <widget class="QMainWindow" name="Pyramid">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Piramid</string>
+   <string>Pyramid</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QWidget" name="layoutWidget">
