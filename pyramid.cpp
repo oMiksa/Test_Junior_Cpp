@@ -7,35 +7,31 @@ Pyramid::Pyramid(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    tmr = new QTimer(this);
+    tmr->setInterval(SPEED_PRINTING_PYRAMID);
+    connect(tmr, SIGNAL(timeout()), this, SLOT(compression()));
+
     this->setFixedSize(550,600);
     ui->fileNameComboBox->setFixedSize(120,20);
     ui->scrollArea->setFixedSize(502,504);
     ui->scrollArea->setBackgroundRole(QPalette::Dark);
 
-    newLayer(500,500);
+    initLayer(500,500);
 }
 
 void Pyramid::newLayer(QString path)
 {
-    imgLbl = new QLabel(this);
     img = new QImage(path);
     imgTemp = new QImage(path);
 
-    nextLayer(ANOUNT);
-
-    creatPyramid(4);
-
-    nextLayer(3);
-
-
-
+    creatPyramid();
 }
 
-void Pyramid::newLayer(int width, int height)
+void Pyramid::initLayer(int width, int height)
 {
     pix = new QPixmap(width, height);
     pix->fill(Qt::white);
-    QLabel *imgLbl = new QLabel(this);
+    imgLbl = new QLabel(this);
     imgLbl->setPixmap(*pix);
     ui->scrollArea->setWidget(imgLbl);
 
@@ -51,11 +47,12 @@ void Pyramid::openImageLayer()
     newLayer(paths);
 }
 
-void Pyramid::nextLayer(int n)
+void Pyramid::Layer(int n)
 {
-    imgTemp->scaled(imgTemp->width() / qPow(2, n), imgTemp->height() / qPow(2, n), Qt::KeepAspectRatio)\
+    *imgTemp = *img;
+    *imgTemp = imgTemp->scaled(img->width() / qFloor(qPow(2, n)), img->height() / qFloor(qPow(2, n)), Qt::KeepAspectRatio)\
             .scaled(img->width(), img->height(), Qt::KeepAspectRatio);
-    printLayer();
+    printLayer(n);
 }
 
 void Pyramid::printLayer()
@@ -67,15 +64,22 @@ void Pyramid::printLayer()
     ui->sizeLayerLabel->setText(QString::number(imgTemp->width()) + "x" + QString::number(imgTemp->height()));
 }
 
-void Pyramid::creatPyramid(int n)
+void Pyramid::printLayer(int n)
 {
-    QPainter painter(imgTemp);
-    for(int i(1); i <= n; i++) {
-        painter.drawImage(img->width() / 2 - img->width() / (qPow(2, i) * 2), img->height() / 2 - img->height() / (qPow(2, i) * 2),\
-                          img->scaled(img->width() / qPow(2, i),img->height() / qPow(2, i),  Qt::KeepAspectRatio));
-        printLayer();
-    }
-    painter.end();
+    imgLbl->setPixmap(QPixmap::fromImage(*imgTemp));
+    ui->scrollArea->setWidget(imgLbl);
+
+    //show size Pixmap
+    ui->sizeLayerLabel->setText(QString::number(imgTemp->width() / qFloor(qPow(2, n))) + "x"\
+                                + QString::number(imgTemp->height() / qFloor(qPow(2, n))));
+}
+
+void Pyramid::creatPyramid()
+{
+    painter = new QPainter(imgTemp);
+    tmr->start();
+    printLayer();
+
 }
 
 Pyramid::~Pyramid()
@@ -86,4 +90,23 @@ Pyramid::~Pyramid()
 void Pyramid::on_actionOpen_triggered()
 {
     openImageLayer();
+}
+
+void Pyramid::compression()
+{
+    static int heigthPyramid = 1;
+    painter->drawImage(img->width() / 2 - img->width() / qFloor(qPow(2, heigthPyramid) * 2),\
+                       img->height() / 2 - img->height() / qFloor(qPow(2, heigthPyramid) * 2),\
+                       img->scaled(img->width() / qFloor(qPow(2, heigthPyramid)),\
+                                   img->height() / qFloor(qPow(2, heigthPyramid)),\
+                                   Qt::KeepAspectRatio));
+    printLayer();
+
+    //pyramid is drawn, go to the first layer
+    if(++heigthPyramid > MAX_HEIGHT_PYRAMID) {
+        heigthPyramid = 1;
+        tmr->stop();
+        painter->end();
+        Layer(4);
+    }
 }

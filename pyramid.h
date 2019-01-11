@@ -1,12 +1,12 @@
 #ifndef PYRAMID_H
 #define PYRAMID_H
 
-#define ANOUNT 7
+#define MAX_HEIGHT_PYRAMID 4
+#define SPEED_PRINTING_PYRAMID 1500
 
 #include <QMainWindow>
 #include <QLabel>
 #include <QImage>
-#include <QList>
 #include <QtMath>
 #include <QPainter>
 #include <QScrollArea>
@@ -14,6 +14,7 @@
 #include <QMessageBox>
 #include <QFileInfo>
 #include <QTimer>
+#include <QDebug>
 
 namespace Ui {
 class Pyramid;
@@ -27,21 +28,25 @@ public:
     explicit Pyramid(QWidget *parent = 0);
 
     void newLayer(QString path);
-    void newLayer(int width, int height);
+    void initLayer(int width, int height);
     void openImageLayer();
-    void nextLayer(int n);
+    void Layer(int n);
     void printLayer();
-    void creatPyramid(int n);
+    void printLayer(int n);
+    void creatPyramid();
 
     ~Pyramid();
 
-    QImage *img;
+    QImage *img;// сделать мапу
     QImage *imgTemp;
+    QTimer *tmr;
     QPixmap *pix;
     QLabel *imgLbl;
+    QPainter *painter;
 
 private slots:
     void on_actionOpen_triggered();
+    void compression();
 
 private:
     Ui::Pyramid *ui;
