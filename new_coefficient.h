@@ -13,8 +13,10 @@ class new_coefficient : public QDialog
     Q_OBJECT
 
 public:
-    explicit new_coefficient(QWidget *parent = nullptr);
+    explicit new_coefficient(double *coefficient, QWidget *parent = nullptr);
     ~new_coefficient();
+
+    double *cof;
 
 private slots:
     void on_pushButtonOk_clicked();

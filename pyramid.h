@@ -17,7 +17,6 @@
 #include <QTimer>
 #include <QVector>
 #include <QDebug>
-#include "new_coefficient.h"
 
 namespace Ui {
 class Pyramid;

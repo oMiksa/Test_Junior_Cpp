@@ -1,5 +1,6 @@
 ﻿#include "pyramid.h"
 #include "ui_pyramid.h"
+#include "new_coefficient.h"
 
 Pyramid::Pyramid(QWidget *parent) :
     QMainWindow(parent),
@@ -66,8 +67,8 @@ void Pyramid::openImageLayer()
 void Pyramid::Layer()
 {
     *imgTemp = imgs->at(ui->fileNameComboBox->currentIndex());
-    *imgTemp = imgTemp->scaled(imgs->at(ui->fileNameComboBox->currentIndex()).width() / qFloor(qPow(cof, ui->layerComboBox->currentIndex())),\
-                               imgs->at(ui->fileNameComboBox->currentIndex()).height() / qFloor(qPow(cof, ui->layerComboBox->currentIndex())),\
+    *imgTemp = imgTemp->scaled(imgs->at(ui->fileNameComboBox->currentIndex()).width() / (qPow(cof, ui->layerComboBox->currentIndex())),\
+                               imgs->at(ui->fileNameComboBox->currentIndex()).height() / (qPow(cof, ui->layerComboBox->currentIndex())),\
                                Qt::KeepAspectRatio)\
             .scaled(imgs->at(ui->fileNameComboBox->currentIndex()).width(),\
                     imgs->at(ui->fileNameComboBox->currentIndex()).height(), Qt::KeepAspectRatio);
@@ -115,12 +116,12 @@ void Pyramid::compression()
 {
     static int heigthPyramid = 1;
     painter->drawImage(imgs->at(ui->fileNameComboBox->currentIndex()).width() / 2 - \
-                       imgs->at(ui->fileNameComboBox->currentIndex()).width() / qFloor(qPow(cof, heigthPyramid) * 2),\
+                       imgs->at(ui->fileNameComboBox->currentIndex()).width() / (qPow(cof, heigthPyramid) * 2),\
                        imgs->at(ui->fileNameComboBox->currentIndex()).height() / 2 - \
-                       imgs->at(ui->fileNameComboBox->currentIndex()).height() / qFloor(qPow(cof, heigthPyramid) * 2),\
+                       imgs->at(ui->fileNameComboBox->currentIndex()).height() / (qPow(cof, heigthPyramid) * 2),\
                        imgs->at(ui->fileNameComboBox->currentIndex())\
-                       .scaled(imgs->at(ui->fileNameComboBox->currentIndex()).width() / qFloor(qPow(cof, heigthPyramid)),\
-                               imgs->at(ui->fileNameComboBox->currentIndex()).height() / qFloor(qPow(cof, heigthPyramid)),\
+                       .scaled(imgs->at(ui->fileNameComboBox->currentIndex()).width() / qPow(cof, heigthPyramid),\
+                               imgs->at(ui->fileNameComboBox->currentIndex()).height() / qPow(cof, heigthPyramid),\
                                    Qt::KeepAspectRatio));
     printLayer();
 
@@ -147,8 +148,6 @@ void Pyramid::on_layerComboBox_activated(const QString &arg1)
 
 void Pyramid::on_actionNew_Coefficient_triggered()
 {
-    qDebug() << cof;
-    //new_coefficient nc;
-    //nc.exec();
-    qDebug() << cof;
+    new_coefficient nc(&cof);
+    nc.exec();
 }
