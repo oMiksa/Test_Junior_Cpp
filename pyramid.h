@@ -34,11 +34,12 @@ public:
     void openImageLayer();
     void Layer();
     void printLayer();
-    void printLayer(int n);
     void creatPyramid();
+    void setCofPyramid(double cof);
 
     ~Pyramid();
 
+    double cof;
     QVector<QImage> *imgs;
     QImage *imgTemp;
     QTimer *tmr;
@@ -47,12 +48,12 @@ public:
     QPainter *painter;
 
 private slots:
-    void on_actionOpen_triggered();
     void compression();
-
+    void on_actionOpen_triggered();
+    void on_actionNew_Coefficient_triggered();
     void on_fileNameComboBox_activated(const QString &arg1);
-
     void on_layerComboBox_activated(const QString &arg1);
+
 
 private:
     Ui::Pyramid *ui;
