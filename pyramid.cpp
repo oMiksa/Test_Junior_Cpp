@@ -21,19 +21,25 @@ Pyramid::Pyramid(QWidget *parent) :
 
 void Pyramid::newLayer(QString path)
 {
-    img = new QImage(path);
     imgTemp = new QImage(path);
+    imgs->append(*imgTemp);
+
 
     creatPyramid();
 }
 
 void Pyramid::initLayer(int width, int height)
 {
+    imgs = new QVector<QImage>;
     pix = new QPixmap(width, height);
     pix->fill(Qt::white);
     imgLbl = new QLabel(this);
     imgLbl->setPixmap(*pix);
     ui->scrollArea->setWidget(imgLbl);
+
+    for(int i(0); i < MAX_HEIGHT_PYRAMID + 1; i++) {
+        ui->layerComboBox->addItem(QString::number(i));
+    }
 
     //show size Pixmap
     ui->sizeLayerLabel->setText(QString::number(width) + "x" + QString::number(height));
@@ -44,15 +50,19 @@ void Pyramid::openImageLayer()
     QString paths = QFileDialog::getOpenFileName(this,tr("Open Image"),"",tr("Image Files(*.png *.jpg)"));
     QFileInfo fileName(paths);
     ui->fileNameComboBox->addItem(fileName.fileName());
+    ui->fileNameComboBox->setCurrentText(fileName.fileName());
     newLayer(paths);
 }
 
-void Pyramid::Layer(int n)
+void Pyramid::Layer()
 {
-    *imgTemp = *img;
-    *imgTemp = imgTemp->scaled(img->width() / qFloor(qPow(2, n)), img->height() / qFloor(qPow(2, n)), Qt::KeepAspectRatio)\
-            .scaled(img->width(), img->height(), Qt::KeepAspectRatio);
-    printLayer(n);
+    *imgTemp = imgs->at(ui->fileNameComboBox->currentIndex());
+    *imgTemp = imgTemp->scaled(imgs->at(ui->fileNameComboBox->currentIndex()).width() / qFloor(qPow(COF_PYRAMID, ui->layerComboBox->currentIndex())),\
+                               imgs->at(ui->fileNameComboBox->currentIndex()).height() / qFloor(qPow(COF_PYRAMID, ui->layerComboBox->currentIndex())),\
+                               Qt::KeepAspectRatio)\
+            .scaled(imgs->at(ui->fileNameComboBox->currentIndex()).width(),\
+                    imgs->at(ui->fileNameComboBox->currentIndex()).height(), Qt::KeepAspectRatio);
+    printLayer();
 }
 
 void Pyramid::printLayer()
@@ -70,8 +80,8 @@ void Pyramid::printLayer(int n)
     ui->scrollArea->setWidget(imgLbl);
 
     //show size Pixmap
-    ui->sizeLayerLabel->setText(QString::number(imgTemp->width() / qFloor(qPow(2, n))) + "x"\
-                                + QString::number(imgTemp->height() / qFloor(qPow(2, n))));
+    ui->sizeLayerLabel->setText(QString::number(imgTemp->width() / qFloor(qPow(COF_PYRAMID, n))) + "x"\
+                                + QString::number(imgTemp->height() / qFloor(qPow(COF_PYRAMID, n))));
 }
 
 void Pyramid::creatPyramid()
@@ -79,11 +89,11 @@ void Pyramid::creatPyramid()
     painter = new QPainter(imgTemp);
     tmr->start();
     printLayer();
-
 }
 
 Pyramid::~Pyramid()
 {
+
     delete ui;
 }
 
@@ -95,10 +105,13 @@ void Pyramid::on_actionOpen_triggered()
 void Pyramid::compression()
 {
     static int heigthPyramid = 1;
-    painter->drawImage(img->width() / 2 - img->width() / qFloor(qPow(2, heigthPyramid) * 2),\
-                       img->height() / 2 - img->height() / qFloor(qPow(2, heigthPyramid) * 2),\
-                       img->scaled(img->width() / qFloor(qPow(2, heigthPyramid)),\
-                                   img->height() / qFloor(qPow(2, heigthPyramid)),\
+    painter->drawImage(imgs->at(ui->fileNameComboBox->currentIndex()).width() / 2 - \
+                       imgs->at(ui->fileNameComboBox->currentIndex()).width() / qFloor(qPow(COF_PYRAMID, heigthPyramid) * 2),\
+                       imgs->at(ui->fileNameComboBox->currentIndex()).height() / 2 - \
+                       imgs->at(ui->fileNameComboBox->currentIndex()).height() / qFloor(qPow(COF_PYRAMID, heigthPyramid) * 2),\
+                       imgs->at(ui->fileNameComboBox->currentIndex())\
+                       .scaled(imgs->at(ui->fileNameComboBox->currentIndex()).width() / qFloor(qPow(COF_PYRAMID, heigthPyramid)),\
+                               imgs->at(ui->fileNameComboBox->currentIndex()).height() / qFloor(qPow(COF_PYRAMID, heigthPyramid)),\
                                    Qt::KeepAspectRatio));
     printLayer();
 
@@ -107,6 +120,16 @@ void Pyramid::compression()
         heigthPyramid = 1;
         tmr->stop();
         painter->end();
-        Layer(4);
+        Layer();
     }
+}
+
+void Pyramid::on_fileNameComboBox_activated(const QString &arg1)
+{
+    Layer();
+}
+
+void Pyramid::on_layerComboBox_activated(const QString &arg1)
+{
+    Layer();
 }

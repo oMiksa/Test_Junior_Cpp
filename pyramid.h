@@ -3,6 +3,7 @@
 
 #define MAX_HEIGHT_PYRAMID 4
 #define SPEED_PRINTING_PYRAMID 1500
+#define COF_PYRAMID 2
 
 #include <QMainWindow>
 #include <QLabel>
@@ -14,6 +15,7 @@
 #include <QMessageBox>
 #include <QFileInfo>
 #include <QTimer>
+#include <QVector>
 #include <QDebug>
 
 namespace Ui {
@@ -30,14 +32,14 @@ public:
     void newLayer(QString path);
     void initLayer(int width, int height);
     void openImageLayer();
-    void Layer(int n);
+    void Layer();
     void printLayer();
     void printLayer(int n);
     void creatPyramid();
 
     ~Pyramid();
 
-    QImage *img;// сделать мапу
+    QVector<QImage> *imgs;
     QImage *imgTemp;
     QTimer *tmr;
     QPixmap *pix;
@@ -47,6 +49,10 @@ public:
 private slots:
     void on_actionOpen_triggered();
     void compression();
+
+    void on_fileNameComboBox_activated(const QString &arg1);
+
+    void on_layerComboBox_activated(const QString &arg1);
 
 private:
     Ui::Pyramid *ui;
