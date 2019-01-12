@@ -17,6 +17,7 @@
 #include <QTimer>
 #include <QVector>
 #include <QDebug>
+#include "new_coefficient.h"
 
 namespace Ui {
 class Pyramid;
@@ -27,7 +28,7 @@ class Pyramid : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit Pyramid(QWidget *parent = 0);
+    explicit Pyramid(QWidget *parent = nullptr);
 
     void newLayer(QString path);
     void initLayer(int width, int height);

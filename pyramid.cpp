@@ -35,7 +35,6 @@ void Pyramid::newLayer(QString path)
 void Pyramid::initLayer(int width, int height)
 {
     cof = COF_PYRAMID;
-    this->setCofPyramid(1.6);
     imgs = new QVector<QImage>;
     pix = new QPixmap(width, height);
     pix->fill(Qt::white);
@@ -94,14 +93,16 @@ void Pyramid::creatPyramid()
 
 void Pyramid::setCofPyramid(double c)
 {
-    if(c <= 1.0 || c > 10.0) {
+    if(c >= 1.0)
         cof = c;
-    }
 }
 
 Pyramid::~Pyramid()
 {
-    // !!деструктор
+    delete imgs;
+    delete imgTemp;
+    delete pix;
+    delete painter;
     delete ui;
 }
 
@@ -146,5 +147,8 @@ void Pyramid::on_layerComboBox_activated(const QString &arg1)
 
 void Pyramid::on_actionNew_Coefficient_triggered()
 {
-    // !! изменение коф из программы
+    qDebug() << cof;
+    //new_coefficient nc;
+    //nc.exec();
+    qDebug() << cof;
 }

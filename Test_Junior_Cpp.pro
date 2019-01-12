@@ -25,10 +25,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        pyramid.cpp
+        pyramid.cpp \
+    new_coefficient.cpp
 
 HEADERS += \
-        pyramid.h
+        pyramid.h \
+    new_coefficient.h
 
 FORMS += \
-        pyramid.ui
+        pyramid.ui \
+    new_coefficient.ui
