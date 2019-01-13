@@ -32,6 +32,10 @@ Pyramid::Pyramid(QWidget *parent) :
     imgLbl = new QLabel(this);
     imgTemp = new QImage;
 
+    for(int i(0); i < MAX_HEIGHT_PYRAMID + 1; i++) {
+        ui->layerComboBox->addItem(QString::number(i));
+    }
+
     startLayer(500,500);
 }
 
@@ -54,6 +58,10 @@ Pyramid::Pyramid(QString path, QString coefficient, QWidget *parent) :
     img = new QVector<QPair<QString, QImage*>>;
     imgLbl = new QLabel(this);
     imgTemp = new QImage;
+
+    for(int i(0); i < MAX_HEIGHT_PYRAMID + 1; i++) {
+        ui->layerComboBox->addItem(QString::number(i));
+    }
 
     setCofPyramid(coefficient.toDouble());
     qDebug() << path << coefficient.toDouble();
@@ -86,10 +94,6 @@ void Pyramid::startLayer(int width, int height)
 
     //show size Pixmap
     ui->sizeLayerLabel->setText(QString::number(width) + "x" + QString::number(height));
-
-    for(int i(0); i < MAX_HEIGHT_PYRAMID + 1; i++) {
-        ui->layerComboBox->addItem(QString::number(i));
-    }
 
     block(true);
 }
@@ -190,12 +194,12 @@ void Pyramid::compression()
     }
 }
 
-void Pyramid::on_fileNameComboBox_activated(const QString &arg1)
+void Pyramid::on_fileNameComboBox_activated()
 {
     layer();
 }
 
-void Pyramid::on_layerComboBox_activated(const QString &arg1)
+void Pyramid::on_layerComboBox_activated()
 {
     layer();
 }

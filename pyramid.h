@@ -12,7 +12,6 @@
 #include <QPainter>
 #include <QScrollArea>
 #include <QFileDialog>
-#include <QMessageBox>
 #include <QFileInfo>
 #include <QTimer>
 #include <QVector>
@@ -41,8 +40,8 @@ private slots:
     void compression();
     void on_actionOpen_triggered();
     void on_actionNew_Coefficient_triggered();
-    void on_fileNameComboBox_activated(const QString &arg1);
-    void on_layerComboBox_activated(const QString &arg1);
+    void on_fileNameComboBox_activated();
+    void on_layerComboBox_activated();
 
 
 private:
