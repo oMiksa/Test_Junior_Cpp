@@ -1,6 +1,6 @@
-#Test for Junior cpp
+# Test for Junior cpp
 
-##Programs for draft pyramid by picture
+## Programs for draft pyramid by picture
 
 1. Programs starting with white screen 500x500pix
 2. You upload a picture, program draws pyramid by picture and jump on first layer
@@ -9,4 +9,4 @@
  * Select picture and layer.
  * Set new coefficient compression.
  
-##Can start program from console with input path to picture and coefficient compression
+### Can start program from console with input path to picture and coefficient compression
