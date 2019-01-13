@@ -7,3 +7,5 @@
 3. After, you can:
  * Upload new picture.
  * Select picture and layer.
+ * Set new coefficient compression.
+###Can start program from console with input path to picture and coefficient compression
