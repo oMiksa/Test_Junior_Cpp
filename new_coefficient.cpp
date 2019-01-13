@@ -6,6 +6,7 @@ new_coefficient::new_coefficient(double *coefficient, QWidget *parent) :
     ui(new Ui::new_coefficient)
 {
     cof = coefficient;
+    this->setFixedSize(340, 115);
     ui->setupUi(this);
 }
 

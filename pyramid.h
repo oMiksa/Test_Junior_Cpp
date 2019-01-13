@@ -16,7 +16,9 @@
 #include <QFileInfo>
 #include <QTimer>
 #include <QVector>
+#include <QPair>
 #include <QDebug>
+#include <algorithm>
 
 namespace Ui {
 class Pyramid;
@@ -28,24 +30,12 @@ class Pyramid : public QMainWindow
 
 public:
     explicit Pyramid(QWidget *parent = nullptr);
+    explicit Pyramid(QString path, QString coefficient, QWidget *parent = nullptr);
 
-    void newLayer(QString path);
-    void initLayer(int width, int height);
     void openImageLayer();
-    void Layer();
-    void printLayer();
-    void creatPyramid();
+    void layer();
     void setCofPyramid(double cof);
-
     ~Pyramid();
-
-    double cof;
-    QVector<QImage> *imgs;
-    QImage *imgTemp;
-    QTimer *tmr;
-    QPixmap *pix;
-    QLabel *imgLbl;
-    QPainter *painter;
 
 private slots:
     void compression();
@@ -56,6 +46,21 @@ private slots:
 
 
 private:
+    void block(bool status);
+    void newNameComboBox(QString name);
+    void newLayer(QString path);
+    void startLayer(int width, int height);
+    void printLayer();
+    void creatPyramid();
+
+    double cof;
+    QVector<QPair<QString, QImage*>> *img;
+    QImage *imgTemp;
+    QTimer *tmr;
+    QPixmap *pix;
+    QLabel *imgLbl;
+    QPainter *painter;
+
     Ui::Pyramid *ui;
 };
 

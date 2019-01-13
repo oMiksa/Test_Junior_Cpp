@@ -16,13 +16,12 @@ public:
     explicit new_coefficient(double *coefficient, QWidget *parent = nullptr);
     ~new_coefficient();
 
-    double *cof;
-
 private slots:
     void on_pushButtonOk_clicked();
     void on_pushButtonClose_clicked();
 
 private:
+    double *cof;
     Ui::new_coefficient *ui;
 };
 

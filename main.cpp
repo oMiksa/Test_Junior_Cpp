@@ -3,7 +3,7 @@
 
 int main(int argc, char *argv[])
 {
-    // !! запуск из командной строки
+    //запуск из консоли
     QApplication a(argc, argv);
     Pyramid w;
     w.show();
