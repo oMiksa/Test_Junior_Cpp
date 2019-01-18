@@ -40,19 +40,25 @@ private slots:
     void compression();
     void on_actionOpen_triggered();
     void on_actionNew_Coefficient_triggered();
-    void on_fileNameComboBox_activated();
-    void on_layerComboBox_activated();
+    void on_fileNameComboBox_activated(int index);
+    void on_layerComboBox_activated(int index);
 
 
 private:
     void block(bool status);
-    void newNameComboBox(QString name);
+    int newNameComboBox(QString name);
     void newLayer(QString path);
     void startLayer(int width, int height);
     void printLayer();
     void creatPyramid();
 
     double cof;
+    int heigthPyramid;
+    int indexPicture;
+    int indexlayer;
+    int widthPicture;
+    int heightPicture;
+
     QVector<QPair<QString, QImage*>> *img;
     QImage *imgTemp;
     QTimer *tmr;
